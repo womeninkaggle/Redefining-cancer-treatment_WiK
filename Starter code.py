@@ -2,15 +2,22 @@
 
 import pandas as pd
 import numpy as np
-From sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn import preprocessing
+from sklearn.cross_validation import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.stop_words import ENGLISH_STOP_WORDS
+import spacy
+from itertools import chain
+from sklearn.pipeline import Pipeline
 
-https://www.morefit.co.uk/moreyoga/moreyoga-timetables/
-f1 = 'training_text.csv'
-f2 = 'training_variants'
+f1 = './data/training_text'
+f2 = './data/training_variants'
 
-df1 = pd.read_csv(f1)
+df1 = pd.read_csv(f1, delimiter='||')
 df2 = pd.read_csv(f2)
+
+
+df = df1.merge(df2)
 
 #load spacy 
 nlp = spacy.load('en_core_web_md') # 'en_default' = "en_core_web_md" but stop word isn't working.
@@ -29,7 +36,7 @@ def filter_token(tok):
             or tok.lower_ in ENGLISH_STOP_WORDS
 
 #df['tokens'] contain tokenized documents			
-df['tokens'] = [[tok.lower_ for tok in doc if not filter_noun(tok)] 
+df['tokens'] = [[tok.lower_ for tok in doc if not filter_token(tok)]
                     for doc in df['docs']]  			
 
 ## you can also use SKlearn or NLTK tokenizer/nlp functions
