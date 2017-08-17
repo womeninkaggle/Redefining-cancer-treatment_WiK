@@ -1,0 +1,10 @@
+*.pyc
+*~
+__pycache__
+dg
+db.sqlite3
+/static
+.DS_Store
+.idea
+.ipynb_checkpoints/
+data/
